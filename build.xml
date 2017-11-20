@@ -1,0 +1,29 @@
+<project default="deploy">
+
+	<!-- Tomcat top build.xml -->
+
+	<property file="../../../../build.properties" />
+
+	<condition property="have.tomcat">
+		<available file="${TOMCAT_SITE_HOME}" />
+	</condition>
+
+	<target name="zip" description="PDAによる持ち出し用">
+		<zip
+			destfile="${PDA_HOME}/Temp/JSPTop.zip"
+			basedir=".."
+			includes="Top/**" />
+	</target>
+
+	<target name="deploy" if="have.tomcat">
+		<!-- <delete dir="${TOMCAT_SITE_HOME}/concert/" /> -->
+
+		<copy todir="${TOMCAT_SITE_HOME}">
+			<fileset dir="html">
+				<include name="*.html" />
+				<include name="*.gif" />
+			</fileset>
+		</copy>
+	</target>
+
+</project>
