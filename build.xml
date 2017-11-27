@@ -7,16 +7,12 @@
 	<condition property="have.tomcat">
 		<available file="${TOMCAT_SITE_HOME}" />
 	</condition>
-
-	<target name="zip" description="PDAによる持ち出し用">
-		<zip
-			destfile="${PDA_HOME}/Temp/JSPTop.zip"
-			basedir=".."
-			includes="Top/**" />
-	</target>
+	<condition property="env.hidehobby">
+		<not><equals arg1="${env.COMPUTERNAME}" arg2="PETROUCHKA" /></not>
+	</condition>
 
 	<target name="deploy" if="have.tomcat">
-		<!-- <delete dir="${TOMCAT_SITE_HOME}/concert/" /> -->
+		<delete file="${TOMCAT_SITE_HOME}/index.html" />
 
 		<copy todir="${TOMCAT_SITE_HOME}">
 			<fileset dir="html">
@@ -24,6 +20,19 @@
 				<include name="*.gif" />
 			</fileset>
 		</copy>
+		<antcall target="replaceindex" />
+	</target>
+
+	<target name="replaceindex" if="env.hidehobby">
+		<replace file="${TOMCAT_SITE_HOME}/index.html" encoding="utf-8">
+			<replacefilter token="Girl" value="xxx" />
+			<replacefilter
+				token="&lt;div id=&quot;girl&quot; style=&quot;display:block;clear:both;&quot;&gt;"
+				value="&lt;div id=&quot;girl&quot; style=&quot;display:none;clear:both;&quot;&gt;" />
+			<replacefilter
+				token="&lt;div id=&quot;sound&quot; style=&quot;display:block;clear:both;&quot;&gt;"
+				value="&lt;div id=&quot;sound&quot; style=&quot;display:none;clear:both;&quot;&gt;" />
+		</replace>
 	</target>
 
 </project>
