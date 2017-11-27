@@ -3,6 +3,7 @@
 	<!-- Tomcat top build.xml -->
 
 	<property file="../../../../build.properties" />
+	<property environment="env"/>
 
 	<condition property="have.tomcat">
 		<available file="${TOMCAT_SITE_HOME}" />
